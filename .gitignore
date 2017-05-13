@@ -11,3 +11,8 @@ test.js
 /style.css
 
 /phantom/style.css
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
