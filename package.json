@@ -10,6 +10,7 @@
     "highcharts-export-server": "./bin/cli.js"
   },
   "scripts": {
+    "start": "./bin/cli.js --enableServer 1 --killSignal SIGINT",
     "install": "node ./build.js"
   },
   "main": "lib/index.js",
