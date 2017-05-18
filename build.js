@@ -56,7 +56,7 @@ const cdnScriptsStandard = [
     "{{version}}/modules/exporting.js"
 ];
 
-const cdnLegacy = [    
+const cdnLegacy = [
     "{{version}}/adapters/standalone-framework.js"
 ];
 
@@ -73,9 +73,9 @@ var schema = {
             message: 'Please enter (y)es or (n)o',
             conform: function (value) {
                 value = value.toUpperCase();
-                return value === 'Y'   || 
-                       value === 'N'   || 
-                       value === 'YES' || 
+                return value === 'Y'   ||
+                       value === 'N'   ||
+                       value === 'YES' ||
                        value === 'NO';
             }
         },
@@ -91,9 +91,9 @@ var schema = {
             required: true,
             conform: function (value) {
                 value = value.toUpperCase();
-                return value === 'Y'   || 
-                       value === 'N'   || 
-                       value === 'YES' || 
+                return value === 'Y'   ||
+                       value === 'N'   ||
+                       value === 'YES' ||
                        value === 'NO'
                 ;
             }
@@ -104,9 +104,9 @@ var schema = {
             required: true,
             conform: function (value) {
                 value = value.toUpperCase();
-                return value === 'Y'   || 
-                       value === 'N'   || 
-                       value === 'YES' || 
+                return value === 'Y'   ||
+                       value === 'N'   ||
+                       value === 'YES' ||
                        value === 'NO'
                 ;
             }
@@ -122,7 +122,7 @@ function embed(version, scripts, out, fn) {
     ;
 
     if (version) {
-        version = version.trim();        
+        version = version.trim();
     }
 
     console.log(version);
@@ -143,9 +143,9 @@ function embed(version, scripts, out, fn) {
 
         funs.push(function (next) {
             request(cdnURL + script, function (error, response, body) {
-                if (error) return next(error, cdnURL + script);     
-                if (body.trim().indexOf('<!DOCTYPE') === 0) return next(404, script);           
-                scriptBody += body;                
+                if (error) return next(error, cdnURL + script);
+                if (body.trim().indexOf('<!DOCTYPE') === 0) return next(404, script);
+                scriptBody += body;
                 next();
             });
         });
@@ -159,21 +159,21 @@ function embed(version, scripts, out, fn) {
             return startPrompt();
         }
 
-        if (err) { 
+        if (err) {
             return console.log('error fetching Highcharts:', err);
         }
 
         console.log('Creating export template', out + '..');
 
         fs.writeFile(
-            __dirname + '/phantom/' + out + '.html', 
+            __dirname + '/phantom/' + out + '.html',
             template
                 .replace('"{{highcharts}}";', scriptBody)
                 .replace('<div style="padding:5px;">', '<div style="padding:5px;display:none;">')
-                , 
+                ,
             function (err) {
                 if (err) return console.log('Error creating template:', err);
-                if (fn) fn();                
+                if (fn) fn();
             }
         );
     });
@@ -193,16 +193,16 @@ function embedAll(version, includeStyled, includeMaps) {
         standard = standard.concat(cdnMaps);
         styled = standard.concat(cdnMaps);
     }
- 
+
     console.log('Pulling Highcharts from CDN (' + version + ')..');
-    embed(version, 
-          standard, 
-          'export', 
-          function () {        
+    embed(version,
+          standard,
+          'export',
+          function () {
             if (includeStyled) {
-                embed(false, 
+                embed(false,
                       styled,
-                      'export_styled', 
+                      'export_styled',
                       endMsg
                 );
             } else {
@@ -220,11 +220,11 @@ function startPrompt() {
         result.agree = result.agree.toUpperCase();
 
         if (result.agree === 'Y' || result.agree === 'YES') {
-            embedAll(result.version, 
-                     result.styledMode.toUpperCase() === 'Y' || 
+            embedAll(result.version,
+                     result.styledMode.toUpperCase() === 'Y' ||
                      result.styledMode.toUpperCase() === 'YES',
-                     result.maps.toUpperCase() === 'Y' || 
-                     result.maps.toUpperCase() === 'YES'                    
+                     result.maps.toUpperCase() === 'Y' ||
+                     result.maps.toUpperCase() === 'YES'
             );
         } else {
             console.log('License terms not accepted, aborting'.red);
@@ -233,11 +233,11 @@ function startPrompt() {
 }
 
 if (process.env.ACCEPT_HIGHCHARTS_LICENSE) {
-    embedAll(process.env.HIGHCHARTS_VERSION || 'latest', 
+    embedAll(process.env.HIGHCHARTS_VERSION || 'latest',
              process.env.HIGHCHARTS_USE_STYLED || true,
              process.env.HIGHCHARTS_USE_MAPS || true
-    );    
-} else {    
+    );
+} else {
     console.log(fs.readFileSync(__dirname + '/msg/licenseagree.msg').toString().bold);
     startPrompt();
 }
