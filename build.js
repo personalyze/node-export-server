@@ -233,6 +233,7 @@ function startPrompt() {
 }
 
 if (process.env.ACCEPT_HIGHCHARTS_LICENSE) {
+    console.log('Accept Highcharts License success');
     embedAll(process.env.HIGHCHARTS_VERSION || 'latest',
              process.env.HIGHCHARTS_USE_STYLED || true,
              process.env.HIGHCHARTS_USE_MAPS || true
