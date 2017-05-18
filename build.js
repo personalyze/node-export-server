@@ -69,7 +69,7 @@ var schema = {
         agree: {
             description: 'Agree to the license terms? y/n',
             required: true,
-            default: 'no',
+            default: 'yes',
             message: 'Please enter (y)es or (n)o',
             conform: function (value) {
                 value = value.toUpperCase();
